@@ -152,3 +152,24 @@ collections:
         name: "rules"
         fields:
           - {label: "Treść", name: "content", widget: "text"}
+
+  - name: "sponsors"
+    label: "Sponsorzy / Partnerzy"
+    delete: false
+    editor: { preview: false }
+    files:
+      - file: "data/sponsors.json"
+        label: "Lista sponsorów"
+        name: "sponsors"
+        fields:
+          - label: "Sponsorzy"
+            name: "ROOT"
+            widget: "list"
+            label_singular: "Sponsor"
+            summary: "{{fields.name}}"
+            fields:
+              - { label: "Nazwa (wewnętrzna)", name: "name", widget: "string" }
+              - { label: "Logo", name: "logo", widget: "image" }
+              - { label: "URL (opcjonalnie)", name: "url", widget: "string", required: false }
+              - { label: "Kolejność (1=przód)", name: "order", widget: "number", value_type: "int", required: false }
+         

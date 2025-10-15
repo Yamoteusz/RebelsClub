@@ -28,6 +28,8 @@ const norm = s => (s||'').toString().normalize('NFD').replace(/[\u0300-\u036f]/g
   const schedule = await loadJSON('data/schedule.json', []);
   const pricing  = await loadJSON('data/pricing.json', []);
   const rules    = await loadJSON('data/rules.json', {"content":""});
+  const sponsors = await loadJSON('data/sponsors.json', []);
+
 
   // basic texts
   document.querySelectorAll('.club-name').forEach(el=>el.textContent=site.clubName||'Rebels Club');
@@ -141,6 +143,25 @@ const norm = s => (s||'').toString().normalize('NFD').replace(/[\u0300-\u036f]/g
     if (pricingSection && (!pricing || pricing.length === 0)) {
       pricingSection.style.display = 'none';
     }
+
+  // Sponsorzy / Partnerzy
+  const spWrap = document.getElementById('sponsors');
+  if (spWrap) {
+    const ordered = (sponsors || []).slice().sort((a,b)=>(a.order||999)-(b.order||999));
+    if (ordered.length === 0) {
+      // brak sponsorów → schowaj całą sekcję
+      const sponsorsSection = document.querySelector('#sponsorzy')?.closest('section');
+      if (sponsorsSection) sponsorsSection.style.display = 'none';
+    } else {
+      spWrap.innerHTML = ordered.map(s => {
+        const img = `<img src="${s.logo}" alt="${s.name||'Sponsor'}" loading="lazy" />`;
+        return s.url
+          ? `<a class="sponsor" href="${s.url}" target="_blank" rel="noopener">${img}</a>`
+          : `<div class="sponsor">${img}</div>`;
+      }).join('');
+    }
+  }
+
 
   // regulamin
   const rulesEl=document.getElementById('rules');
