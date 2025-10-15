@@ -1,18 +1,18 @@
 {
   "clubName": "Rebels Club",
   "motto": "Dyscyplina • Charakter • Rebelia",
-  "cta": "Pierwszy trening próbny — GRATIS",
+  "cta": ".",
   "address": "Twardogóra, ul. Plac Piastów 24",
   "email": "kontakt@rebelsclub.pl",
   "phone": "",
   "socials": {
     "instagram": "#",
-    "facebook": "#",
+    "facebook": "https://www.facebook.com/lokrebelsclub",
     "youtube": "#"
   },
   "stats": {
-    "members": 120,
+    "members": 30,
     "medals": 36,
-    "founded": 2020
+    "founded": 2025
   }
 }

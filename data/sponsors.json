@@ -1,1 +1,18 @@
-{ "ROOT": [] }
+{
+  "ROOT": [
+    {
+      "name": "Gminny Ośrodek Sportu I Rekreacji Twardogóra",
+      "logo": "/images/uploads/gosir.png",
+      "url": "https://gosir.twardogora.pl"
+    },
+    {
+      "name": "GMINA TWARDOGÓRA",
+      "logo": "/images/uploads/herb_twardogory.webp",
+      "url": "https://www.twardogora.pl"
+    },
+    {
+      "name": "LOK",
+      "logo": "/images/uploads/logo_lok_3-removebg-preview.webp"
+    }
+  ]
+}
