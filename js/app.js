@@ -19,16 +19,18 @@ function fmtDateISOtoPL(iso){
 const DAYS_PL = ['Niedziela','Poniedziałek','Wtorek','Środa','Czwartek','Piątek','Sobota'];
 const MONTHS_PL = ['stycznia','lutego','marca','kwietnia','maja','czerwca','lipca','sierpnia','września','października','listopada','grudnia'];
 const norm = s => (s||'').toString().normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().trim();
+const asList = (data) =>
+  Array.isArray(data) ? data : (data && Array.isArray(data.ROOT) ? data.ROOT : []);
 
 (async function init(){
   const site     = await loadJSON('data/site.json', {});
-  const trainers = await loadJSON('data/trainers.json', []);
-  const athletes = await loadJSON('data/athletes.json', []);
-  const news     = await loadJSON('data/news.json', []);
-  const schedule = await loadJSON('data/schedule.json', []);
-  const pricing  = await loadJSON('data/pricing.json', []);
+  const trainers = asList(await loadJSON('data/trainers.json', []));
+  const athletes = asList(await loadJSON('data/athletes.json', []));
+  const news     = asList(await loadJSON('data/news.json', []));
+  const schedule = asList(await loadJSON('data/schedule.json', []));
+  const pricing  = asList(await loadJSON('data/pricing.json', []));
   const rules    = await loadJSON('data/rules.json', {"content":""});
-  const sponsors = await loadJSON('data/sponsors.json', []);
+  const sponsors = asList(await loadJSON('data/sponsors.json', []));
 
 
   // basic texts
