@@ -121,6 +121,11 @@ const norm = s => (s||'').toString().normalize('NFD').replace(/[\u0300-\u036f]/g
       </article>`).join('');
   }
 
+  const newsSection = document.querySelector('#aktualnosci')?.closest('section');
+    if (newsSection && (!news || news.length === 0)) {
+    newsSection.style.display = 'none';
+  }
+
   // cennik
   const pw=document.getElementById('pricing');
   if(pw){ pw.innerHTML = pricing.map(p=>`
@@ -129,7 +134,13 @@ const norm = s => (s||'').toString().normalize('NFD').replace(/[\u0300-\u036f]/g
       <div class="price-meta">${p.level||''} • ${p.sessions||''}</div>
       <div class="price-tag">${p.price||''}</div>
       <p class="meta">${p.note||''}</p>
-    </div>`).join(''); }
+    </div>`).join('');
+  }
+
+  const pricingSection = document.querySelector('#cennik')?.closest('section');
+    if (pricingSection && (!pricing || pricing.length === 0)) {
+      pricingSection.style.display = 'none';
+    }
 
   // regulamin
   const rulesEl=document.getElementById('rules');
