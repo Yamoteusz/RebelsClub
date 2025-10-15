@@ -1,0 +1,32 @@
+{
+  "clubName": "Rebels Club",
+  "motto": "Dyscyplina • Charakter • Rebelia",
+  "cta": "Pierwszy trening próbny — GRATIS",
+  "address": "Twardogóra, ul. Plac Piastów 24",
+  "email": "kontakt@rebelsclub.pl",
+  "phone": "",
+  "socials": {
+    "instagram": "#",
+    "facebook": "#",
+    "youtube": "#"
+  },
+  "stats": {
+    "members": 120,
+    "medals": 36,
+    "founded": 2020
+  },
+  "heroTrainings": [
+    {
+      "time": "10:00–11:00",
+      "room": "Sala A",
+      "title": "Dzieci 8–12 (kickboxing podstawy)",
+      "coach": "Trenerka Ania"
+    },
+    {
+      "time": "11:15–12:45",
+      "room": "Sala A",
+      "title": "Kickboxing Open Mat",
+      "coach": "Trener Adam"
+    }
+  ]
+}

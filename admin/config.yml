@@ -1,0 +1,154 @@
+
+backend:
+  name: git-gateway
+  branch: main
+
+media_folder: "images/uploads"
+public_folder: "/images/uploads"
+
+collections:
+  - name: "site"
+    label: "Ustawienia strony"
+    delete: false
+    editor: { preview: false }
+    files:
+      - file: "data/site.json"
+        label: "Dane ogólne"
+        name: "site"
+        fields:
+          - {label: "Nazwa klubu", name: "clubName", widget: "string"}
+          - {label: "Motto", name: "motto", widget: "string"}
+          - {label: "CTA", name: "cta", widget: "string"}
+          - {label: "Adres", name: "address", widget: "string"}
+          - {label: "E-mail", name: "email", widget: "string"}
+          - label: "Sociale"
+            name: "socials"
+            widget: "object"
+            fields:
+              - {label: "Instagram URL", name: "instagram", widget: "string", required: false}
+              - {label: "Facebook URL", name: "facebook", widget: "string", required: false}
+              - {label: "YouTube URL", name: "youtube", widget: "string", required: false}
+          - label: "Statystyki"
+            name: "stats"
+            widget: "object"
+            fields:
+              - {label: "Aktywni klubowicze", name: "members", widget: "number", value_type: "int"}
+              - {label: "Medale (2024–2025)", name: "medals", widget: "number", value_type: "int"}
+              - {label: "Rok założenia", name: "founded", widget: "number", value_type: "int"}
+          - label: "Dzisiejsze treningi (kafelki)"
+            name: "heroTrainings"
+            widget: "list"
+            fields:
+              - {label: "Godziny", name: "time", widget: "string"}
+              - {label: "Sala", name: "room", widget: "string"}
+              - {label: "Tytuł", name: "title", widget: "string"}
+              - {label: "Trener", name: "coach", widget: "string"}
+
+  - name: "trainers"
+    label: "Trenerzy"
+    delete: false
+    editor: { preview: false }
+    files:
+      - file: "data/trainers.json"
+        label: "Lista trenerów"
+        name: "trainers"
+        fields:
+          - label: "Trenerzy"
+            name: "ROOT"
+            widget: "list"
+            fields:
+              - {label: "Imię i nazwisko", name: "name", widget: "string"}
+              - {label: "Rola", name: "role", widget: "string", required: false}
+              - label: "Tagi"
+                name: "tags"
+                widget: "list"
+                required: false
+                field: {label: "Tag", name: "tag", widget: "string"}
+              - {label: "Zdjęcie", name: "photo", widget: "image", required: false}
+              - {label: "Alt", name: "alt", widget: "string", required: false}
+
+  - name: "athletes"
+    label: "Zawodnicy"
+    delete: false
+    editor: { preview: false }
+    files:
+      - file: "data/athletes.json"
+        label: "Lista zawodników"
+        name: "athletes"
+        fields:
+          - label: "Zawodnicy"
+            name: "ROOT"
+            widget: "list"
+            fields:
+              - {label: "Nazwa (np. Imię — kategoria)", name: "name", widget: "string"}
+              - {label: "Osiągnięcia", name: "achievements", widget: "string", required: false}
+              - {label: "Zdjęcie", name: "photo", widget: "image", required: false}
+              - {label: "Alt", name: "alt", widget: "string", required: false}
+
+  - name: "news"
+    label: "Aktualności"
+    delete: false
+    editor: { preview: false }
+    files:
+      - file: "data/news.json"
+        label: "Lista aktualności"
+        name: "news"
+        fields:
+          - label: "Aktualności"
+            name: "ROOT"
+            widget: "list"
+            fields:
+              - {label: "Tytuł", name: "title", widget: "string"}
+              - {label: "Data", name: "date", widget: "datetime", format: "YYYY-MM-DD", time_format: false}
+              - {label: "Lead", name: "lead", widget: "text", required: false}
+              - {label: "Okładka", name: "cover", widget: "image", required: false}
+              - {label: "Alt", name: "alt", widget: "string", required: false}
+
+  - name: "schedule"
+    label: "Grafik tygodniowy"
+    delete: false
+    editor: { preview: false }
+    files:
+      - file: "data/schedule.json"
+        label: "Grafik"
+        name: "schedule"
+        fields:
+          - label: "Zajęcia"
+            name: "ROOT"
+            widget: "list"
+            fields:
+              - {label: "Dzień", name: "day", widget: "string"}
+              - {label: "Godzina", name: "time", widget: "string"}
+              - {label: "Grupa", name: "group", widget: "string"}
+              - {label: "Trener", name: "coach", widget: "string", required: false}
+              - {label: "Sala", name: "room", widget: "string", required: false}
+
+  - name: "pricing"
+    label: "Cennik"
+    delete: false
+    editor: { preview: false }
+    files:
+      - file: "data/pricing.json"
+        label: "Pozycje cennika"
+        name: "pricing"
+        fields:
+          - label: "Pozycje"
+            name: "ROOT"
+            widget: "list"
+            fields:
+              - {label: "Nazwa zajęć", name: "name", widget: "string"}
+              - {label: "Poziom", name: "level", widget: "string", required: false}
+              - {label: "Liczba zajęć (np. 2x w tyg.)", name: "sessions", widget: "string", required: false}
+              - {label: "Cena", name: "price", widget: "string"}
+              - {label: "Dopisek", name: "note", widget: "string", required: false}
+
+  - name: "rules"
+    label: "Regulamin"
+    delete: false
+    editor: { preview: false }
+    files:
+      - file: "data/rules.json"
+        label: "Treść regulaminu"
+        name: "rules"
+        fields:
+          - {label: "Treść", name: "content", widget: "text"}

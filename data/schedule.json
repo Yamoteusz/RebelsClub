@@ -1,0 +1,30 @@
+[
+  {
+    "day": "Poniedziałek",
+    "time": "18:00–19:30",
+    "group": "Kickboxing — podstawy",
+    "coach": "Adam",
+    "room": "A"
+  },
+  {
+    "day": "Poniedziałek",
+    "time": "19:45–21:15",
+    "group": "Boks — zaawansowana",
+    "coach": "Kuba",
+    "room": "A"
+  },
+  {
+    "day": "Wtorek",
+    "time": "18:30–20:00",
+    "group": "MMA — technika & parter",
+    "coach": "Kuba",
+    "room": "B"
+  },
+  {
+    "day": "Środa",
+    "time": "17:00–18:00",
+    "group": "Dzieci 8–12",
+    "coach": "Ania",
+    "room": "B"
+  }
+]
