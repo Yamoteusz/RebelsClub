@@ -6,8 +6,13 @@
       "url": "https://gosir.twardogora.pl"
     },
     {
-      "name": "JEBAĆ SZCZEPANIAKA",
-      "logo": "/images/uploads/szczepan.png"
+      "name": "GMINA TWARDOGÓRA",
+      "logo": "/images/uploads/herb_twardogory.webp",
+      "url": "https://www.twardogora.pl"
+    },
+    {
+      "name": "LOK",
+      "logo": "/images/uploads/logo_lok_3-removebg-preview.webp"
     }
   ]
 }
