@@ -88,12 +88,23 @@ const norm = s => (s||'').toString().normalize('NFD').replace(/[\u0300-\u036f]/g
     <div class="person">
       <img src="${p.photo}" alt="${p.alt||p.name}"/>
       <div><h4>${p.name}</h4><div class="meta">${p.role||''}</div><div class="tags">${(p.tags||[]).map(t=>`<span class="chip">${t}</span>`).join('')}</div></div>
-    </div>`).join(''); }
+    </div>`).join(''); 
+  }
+  
+  const trainersSection = document.querySelector('#trenerzy')?.closest('section');
+  if (trainersSection && (!trainers || trainers.length === 0)) {
+    trainersSection.style.display = 'none';
+  }  
 
   // zawodnicy
   const aw=document.getElementById('athletes');
   if(aw){ aw.innerHTML = athletes.map(a=>`
     <div class="card"><img src="${a.photo}" alt="${a.alt||a.name}"/><div class="card-body"><h3>${a.name}</h3><p class="meta">${a.achievements||''}</p></div></div>`).join(''); }
+
+  const athletesSection = document.querySelector('#zawodnicy')?.closest('section');
+    if (athletesSection && (!athletes || athletes.length === 0)) {
+    athletesSection.style.display = 'none';
+  }   
 
   // grafik (tabela)
   const sb=document.getElementById('schedule-body');
