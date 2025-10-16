@@ -81,8 +81,9 @@
   }
   if (window.netlifyIdentity) {
     window.netlifyIdentity.on('init', user => { currentUser=user; updateAuthBadge(); if(user) buildGrid(); });
-    window.netlifyIdentity.on('login', user => { currentUser=user; updateAuthBadge(); location.reload(); });
-    window.netlifyIdentity.on('logout', () => { currentUser=null; updateAuthBadge(); location.reload(); });
+    window.netlifyIdentity.on('login', user => { currentUser=user; updateAuthBadge(); buildGrid(); });
+    window.netlifyIdentity.on('logout', () => { currentUser=null; updateAuthBadge(); buildGrid(); });
+
   }
 
   let startOffset=0;
