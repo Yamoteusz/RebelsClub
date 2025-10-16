@@ -139,11 +139,11 @@
 
   <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 <script>
-  // Minimalny dropdown użytkownika w nawigacji
+  // ===== User menu (bez przeładowań) =====
   const el = document.getElementById('auth-menu');
-  function rolesOf(user){
-    try { return (user?.app_metadata?.roles)||[] } catch(e){ return [] }
-  }
+
+  function rolesOf(user){ return (user && user.app_metadata && user.app_metadata.roles) || []; }
+
   function renderMenu(user){
     if(!el) return;
     if(!user){
@@ -176,26 +176,26 @@
     const btn = document.getElementById('menuBtn');
     const drop = document.getElementById('menuDrop');
     btn?.addEventListener('click', ()=>{
-      const open = drop.hasAttribute('hidden') ? false : true;
+      const open = !drop.hasAttribute('hidden');
       if(open){ drop.setAttribute('hidden',''); btn.setAttribute('aria-expanded','false'); }
-      else { drop.removeAttribute('hidden'); btn.setAttribute('aria-expanded','true'); }
+      else     { drop.removeAttribute('hidden');  btn.setAttribute('aria-expanded','true');  }
     });
     document.getElementById('btn-logout')?.addEventListener('click', ()=> window.netlifyIdentity?.logout());
     document.addEventListener('click', (e)=>{ if(!el.contains(e.target)) drop?.setAttribute('hidden',''); }, true);
   }
 
-  // Identity lifecycle
+  // Subskrypcje bez przeładowania
   if (window.netlifyIdentity) {
-    window.netlifyIdentity.on('init', user => renderMenu(user));
-    window.netlifyIdentity.on('login', user => { renderMenu(user); location.reload(); });
-    window.netlifyIdentity.on('logout', () => { renderMenu(null); location.reload(); });
-    // Jeśli widget był już zainicjalizowany
+    window.netlifyIdentity.on('init',  user => renderMenu(user));
+    window.netlifyIdentity.on('login', user => renderMenu(user));   // ← żadnych reloadów
+    window.netlifyIdentity.on('logout',()   => renderMenu(null));   // ← żadnych reloadów
+    // render po załadowaniu widżetu
     setTimeout(()=> renderMenu(window.netlifyIdentity.currentUser()), 150);
   } else {
-    // Fallback – pokaż przyciski, nawet gdy widget chwilowo się nie wczyta
     renderMenu(null);
   }
 </script>
+
 
   
 </body>
