@@ -1,0 +1,14 @@
+{
+  "name": "rebelsclub",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "build": "echo \"static site\""
+  },
+  "engines": {
+    "node": "18.x"
+  },
+  "dependencies": {
+    "googleapis": "^129.0.0"
+  }
+}
