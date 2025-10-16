@@ -2,13 +2,26 @@
   publish = "."
   functions = "netlify/functions"
 
-[functions]
-  node_bundler = "esbuild"
-  included_files = ["netlify/functions/**"]
+# Admin: doprowadź /admin do katalogu
+[[redirects]]
+  from = "/admin"
+  to   = "/admin/"
+  status = 301
 
+# Bardzo ważne – NIE przepisywać config.yml
+[[redirects]]
+  from = "/admin/config.yml"
+  to   = "/admin/config.yml"
+  status = 200
+
+# Serwuj panel Decap (index.html) dla pozostałych ścieżek w /admin/*
 [[redirects]]
   from = "/admin/*"
-  to = "/admin/index.html"
+  to   = "/admin/index.html"
   status = 200
-  force = true
 
+# (Jeśli masz SPA catch-all, zostaw go NA KOŃCU)
+# [[redirects]]
+#   from = "/*"
+#   to   = "/index.html"
+#   status = 200
