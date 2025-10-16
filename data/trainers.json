@@ -1,10 +1,12 @@
 {
   "ROOT": [
     {
-      "name": "Dariusz Tyczyński"
+      "name": "Dariusz Tyczyński",
+      "photo": "/images/uploads/daro.png"
     },
     {
-      "name": "Marcin Kałużny"
+      "name": "Marcin Kałużny",
+      "photo": "/images/uploads/marcinn.png"
     },
     {
       "name": "Kamila Czulińska"
