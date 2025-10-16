@@ -39,3 +39,7 @@
 }
 .dropdown a:hover, .dropdown button:hover{ background:#0f1422 }
 
+.dropdown[hidden]{ display:none !important; }
+.user-menu{ position:relative; }
+
+

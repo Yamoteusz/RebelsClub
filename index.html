@@ -138,63 +138,95 @@
   </script>
 
   <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-<script>
-  // ===== User menu (bez przeładowań) =====
-  const el = document.getElementById('auth-menu');
+  <script>
+    const el = document.getElementById('auth-menu');
+    let globalClosersBound = false;
 
-  function rolesOf(user){ return (user && user.app_metadata && user.app_metadata.roles) || []; }
+    function closeAllMenus(){
+      document.querySelectorAll('.dropdown[data-open="1"]').forEach(d=>{
+        d.setAttribute('hidden','');
+        d.removeAttribute('data-open');
+      });
+      document.querySelectorAll('.menu-btn[aria-expanded="true"]').forEach(b=>b.setAttribute('aria-expanded','false'));
+    }
 
-  function renderMenu(user){
-    if(!el) return;
-    if(!user){
+    function bindGlobalClosersOnce(){
+      if (globalClosersBound) return;
+      globalClosersBound = true;
+      document.addEventListener('click', closeAllMenus);
+      document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') closeAllMenus(); });
+      window.addEventListener('scroll', closeAllMenus, { passive:true });
+    }
+
+    function rolesOf(user){ return (user?.app_metadata?.roles) || []; }
+
+    function renderMenu(user){
+      if(!el) return;
+      if(!user){
+        el.innerHTML = `
+          <div class="user-menu">
+            <button class="btn" id="btn-login">Zaloguj / Zarejestruj</button>
+            <a class="btn btn-outline" href="/rezerwacje.html" style="margin-left:8px;">Rezerwacje</a>
+          </div>`;
+        document.getElementById('btn-login')?.addEventListener('click', e=>{
+          e.preventDefault(); window.netlifyIdentity?.open();
+        });
+        return;
+      }
+
+      const email = user.email || 'Użytkownik';
+      const staff = rolesOf(user).some(r=>['staff','editor','admin'].includes(r));
       el.innerHTML = `
         <div class="user-menu">
-          <button class="btn" id="btn-login">Zaloguj / Zarejestruj</button>
-          <a class="btn btn-outline" href="/rezerwacje.html" style="margin-left:8px;">Rezerwacje</a>
+          <button class="menu-btn" id="menuBtn" aria-haspopup="true" aria-expanded="false">
+            <span class="avatar">${email[0].toUpperCase()}</span>
+            <span class="email">${email}</span>
+          </button>
+          <div class="dropdown" id="menuDrop" hidden>
+            <a href="/rezerwacje.html">🗓 Rezerwacje</a>
+            <a href="/moje-rezerwacje.html">⭐ Moje rezerwacje</a>
+            ${staff ? '<a href="/admin/">🛠 CMS</a>' : ''}
+            <button id="btn-logout">🚪 Wyloguj</button>
+          </div>
         </div>`;
-      document.getElementById('btn-login')?.addEventListener('click', e=>{
-        e.preventDefault(); window.netlifyIdentity?.open();
-      });
-      return;
-    }
-    const email = user.email || 'Użytkownik';
-    const r = rolesOf(user);
-    const staff = r.includes('staff') || r.includes('editor') || r.includes('admin');
-    el.innerHTML = `
-      <div class="user-menu">
-        <button class="menu-btn" id="menuBtn" aria-haspopup="true" aria-expanded="false">
-          <span class="avatar">${email[0].toUpperCase()}</span>
-          <span class="email">${email}</span>
-        </button>
-        <div class="dropdown" id="menuDrop" hidden>
-          <a href="/rezerwacje.html">🗓 Rezerwacje</a>
-          <a href="/moje-rezerwacje.html">⭐ Moje rezerwacje</a>
-          ${staff ? '<a href="/admin/">🛠 CMS</a>' : ''}
-          <button id="btn-logout">🚪 Wyloguj</button>
-        </div>
-      </div>`;
-    const btn = document.getElementById('menuBtn');
-    const drop = document.getElementById('menuDrop');
-    btn?.addEventListener('click', ()=>{
-      const open = !drop.hasAttribute('hidden');
-      if(open){ drop.setAttribute('hidden',''); btn.setAttribute('aria-expanded','false'); }
-      else     { drop.removeAttribute('hidden');  btn.setAttribute('aria-expanded','true');  }
-    });
-    document.getElementById('btn-logout')?.addEventListener('click', ()=> window.netlifyIdentity?.logout());
-    document.addEventListener('click', (e)=>{ if(!el.contains(e.target)) drop?.setAttribute('hidden',''); }, true);
-  }
 
-  // Subskrypcje bez przeładowania
-  if (window.netlifyIdentity) {
-    window.netlifyIdentity.on('init',  user => renderMenu(user));
-    window.netlifyIdentity.on('login', user => renderMenu(user));   // ← żadnych reloadów
-    window.netlifyIdentity.on('logout',()   => renderMenu(null));   // ← żadnych reloadów
-    // render po załadowaniu widżetu
-    setTimeout(()=> renderMenu(window.netlifyIdentity.currentUser()), 150);
-  } else {
-    renderMenu(null);
-  }
-</script>
+      const btn  = document.getElementById('menuBtn');
+      const drop = document.getElementById('menuDrop');
+
+      // nie pozwól, by klik w dropdown zamykał go natychmiast
+      drop.addEventListener('click', e=> e.stopPropagation());
+
+      btn.addEventListener('click', (e)=>{
+        e.preventDefault();
+        e.stopPropagation();
+        const isOpen = drop.getAttribute('data-open') === '1';
+        closeAllMenus();
+        if (!isOpen){
+          drop.removeAttribute('hidden');
+          drop.setAttribute('data-open','1');
+          btn.setAttribute('aria-expanded','true');
+        } else {
+          drop.setAttribute('hidden','');
+          drop.removeAttribute('data-open');
+          btn.setAttribute('aria-expanded','false');
+        }
+      });
+
+      document.getElementById('btn-logout')?.addEventListener('click', ()=> window.netlifyIdentity?.logout());
+      bindGlobalClosersOnce(); // tylko raz na całą stronę
+    }
+
+    // Identity bez reloadów
+    if (window.netlifyIdentity) {
+      window.netlifyIdentity.on('init',  user => renderMenu(user));
+      window.netlifyIdentity.on('login', user => renderMenu(user));
+      window.netlifyIdentity.on('logout',()   => renderMenu(null));
+      setTimeout(()=> renderMenu(window.netlifyIdentity.currentUser()), 150);
+    } else {
+      renderMenu(null);
+    }
+  </script>
+
 
 
   
