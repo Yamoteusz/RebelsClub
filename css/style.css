@@ -18,3 +18,24 @@
 .sponsor img{ max-height:46px; width:auto; height:auto; }
 .brand-logo{width:32px;height:32px;border-radius:8px;object-fit:contain;display:block}
 
+.user-menu{display:flex; align-items:center; gap:8px; position:relative}
+.menu-btn{
+  display:flex; align-items:center; gap:10px; padding:6px 10px;
+  background:var(--card); border:1px solid #1b2030; border-radius:999px; cursor:pointer
+}
+.menu-btn .avatar{
+  width:26px; height:26px; display:inline-grid; place-items:center;
+  background:#e91e63; color:#fff; border-radius:50%; font-weight:700
+}
+.menu-btn .email{font-size:14px; color:#cbd5e1}
+.dropdown{
+  position:absolute; right:0; top:calc(100% + 8px);
+  display:flex; flex-direction:column; min-width:220px;
+  background:var(--card); border:1px solid #1b2030; border-radius:12px; padding:8px;
+  box-shadow:0 10px 30px rgba(0,0,0,.35); z-index:30
+}
+.dropdown a, .dropdown button{
+  display:block; text-align:left; padding:8px 10px; border-radius:8px; border:none; background:transparent; color:#e2e8f0; cursor:pointer
+}
+.dropdown a:hover, .dropdown button:hover{ background:#0f1422 }
+

@@ -30,6 +30,7 @@
         <a href="#regulamin">Regulamin</a>
         <a href="#aktualnosci">Aktualności</a>
         <a href="#kontakt" class="btn">Dołącz</a>
+        <div id="auth-menu"></div>
       </div>
       <button class="nav-toggle btn btn-outline" onclick="document.querySelector('.nav-links')?.classList.toggle('open')">Menu</button>
     </div>
@@ -42,7 +43,7 @@
         <h1 class="club-name">Rebels Club — klub sportów walki</h1>
         <p>Kickboxing • Boks • MMA. <strong class="cta-text"></strong>.</p>
         <div class="hero-cta">
-          <a href="#kontakt" class="btn" aria-label="Zapisz się na trening">Zapisz się na trening</a>
+          <a class="btn" href="/rezerwacje.html" id="cta-trening">Zapisz się na trening</a>
           <a href="#grafik" class="btn btn-outline" aria-label="Zobacz grafik">Zobacz grafik</a>
         </div>
         <div id="stats" style="display:flex; gap:10px; margin-top:16px; flex-wrap:wrap;"></div>
@@ -135,6 +136,67 @@
       });
     }
   </script>
+
+  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+<script>
+  // Minimalny dropdown użytkownika w nawigacji
+  const el = document.getElementById('auth-menu');
+  function rolesOf(user){
+    try { return (user?.app_metadata?.roles)||[] } catch(e){ return [] }
+  }
+  function renderMenu(user){
+    if(!el) return;
+    if(!user){
+      el.innerHTML = `
+        <div class="user-menu">
+          <button class="btn" id="btn-login">Zaloguj / Zarejestruj</button>
+          <a class="btn btn-outline" href="/rezerwacje.html" style="margin-left:8px;">Rezerwacje</a>
+        </div>`;
+      document.getElementById('btn-login')?.addEventListener('click', e=>{
+        e.preventDefault(); window.netlifyIdentity?.open();
+      });
+      return;
+    }
+    const email = user.email || 'Użytkownik';
+    const r = rolesOf(user);
+    const staff = r.includes('staff') || r.includes('editor') || r.includes('admin');
+    el.innerHTML = `
+      <div class="user-menu">
+        <button class="menu-btn" id="menuBtn" aria-haspopup="true" aria-expanded="false">
+          <span class="avatar">${email[0].toUpperCase()}</span>
+          <span class="email">${email}</span>
+        </button>
+        <div class="dropdown" id="menuDrop" hidden>
+          <a href="/rezerwacje.html">🗓 Rezerwacje</a>
+          <a href="/moje-rezerwacje.html">⭐ Moje rezerwacje</a>
+          ${staff ? '<a href="/admin/">🛠 CMS</a>' : ''}
+          <button id="btn-logout">🚪 Wyloguj</button>
+        </div>
+      </div>`;
+    const btn = document.getElementById('menuBtn');
+    const drop = document.getElementById('menuDrop');
+    btn?.addEventListener('click', ()=>{
+      const open = drop.hasAttribute('hidden') ? false : true;
+      if(open){ drop.setAttribute('hidden',''); btn.setAttribute('aria-expanded','false'); }
+      else { drop.removeAttribute('hidden'); btn.setAttribute('aria-expanded','true'); }
+    });
+    document.getElementById('btn-logout')?.addEventListener('click', ()=> window.netlifyIdentity?.logout());
+    document.addEventListener('click', (e)=>{ if(!el.contains(e.target)) drop?.setAttribute('hidden',''); }, true);
+  }
+
+  // Identity lifecycle
+  if (window.netlifyIdentity) {
+    window.netlifyIdentity.on('init', user => renderMenu(user));
+    window.netlifyIdentity.on('login', user => { renderMenu(user); location.reload(); });
+    window.netlifyIdentity.on('logout', () => { renderMenu(null); location.reload(); });
+    // Jeśli widget był już zainicjalizowany
+    setTimeout(()=> renderMenu(window.netlifyIdentity.currentUser()), 150);
+  } else {
+    // Fallback – pokaż przyciski, nawet gdy widget chwilowo się nie wczyta
+    renderMenu(null);
+  }
+</script>
+
   
 </body>
 </html>
