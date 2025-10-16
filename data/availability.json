@@ -1,0 +1,24 @@
+{
+  "ROOT": [
+    {
+      "day": "Poniedziałek",
+      "start": "18:00",
+      "end": "20:00",
+      "step": 30,
+      "group": "Kickboxing — podstawy",
+      "coach": "Adam",
+      "room": "A",
+      "capacity": 1
+    },
+    {
+      "day": "Środa",
+      "start": "17:00",
+      "end": "19:00",
+      "step": 30,
+      "group": "Dzieci 8–12",
+      "coach": "Ania",
+      "room": "B",
+      "capacity": 1
+    }
+  ]
+}

@@ -1,0 +1,2 @@
+timestamp,user_email,slot_iso,slot_label,group,coach,room,capacity,status,event_id
+2025-10-16T10:00:00Z,jan@example.com,2025-10-20T18:00:00Z,Poniedziałek • 20.10 18:00,Kickboxing — podstawy,Adam,A,1,Zatwierdzone,abc123

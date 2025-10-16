@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Moje rezerwacje — Rebels Club</title>
+  <link rel="stylesheet" href="/css/style.css" />
+  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+  <style>
+    .bookings{display:grid;gap:12px}
+    .booking{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center}
+    .badge{display:inline-block;padding:4px 8px;border:1px solid #1b2030;border-radius:999px;font-size:12px;color:#98a2b3}
+    .actions{display:flex;gap:8px}
+  </style>
+</head>
+<body>
+  <nav class="nav"><div class="container nav-inner">
+    <div class="brand"><div class="brand-mark">R</div><a href="/" class="club-name">Rebels Club</a></div>
+    <div class="nav-links">
+      <a href="/">Strona główna</a>
+      <a href="/rezerwacje.html" class="btn btn-outline">Rezerwacje</a>
+    </div>
+  </div></nav>
+
+  <section><div class="container">
+    <div class="sec-head"><h2 class="sec-title">Moje rezerwacje</h2><span class="chip" id="auth">Logowanie…</span></div>
+    <div id="list" class="bookings"></div>
+  </div></section>
+
+  <script>
+  let user=null;
+  const auth=document.getElementById('auth');
+  function updateAuth(){
+    if(user){ auth.textContent = user.email; } 
+    else { auth.innerHTML = 'Niezalogowano — <a href="#" onclick="window.netlifyIdentity.open();return false;">Zaloguj</a>'; }
+  }
+  if (window.netlifyIdentity){
+    window.netlifyIdentity.on('init', u=>{user=u; updateAuth(); if(u) load();});
+    window.netlifyIdentity.on('login', u=>{user=u; updateAuth(); location.reload();});
+    window.netlifyIdentity.on('logout', ()=>{user=null; updateAuth(); location.reload();});
+  }
+
+  async function load(){
+    const token = user?.token?.access_token || (await user.jwt());
+    const r = await fetch('/.netlify/functions/list-bookings', { headers: { Authorization: 'Bearer '+token } });
+    const data = await r.json();
+    render(data.items||[]);
+  }
+
+  function render(items){
+    const el = document.getElementById('list');
+    if(!items.length){
+      el.innerHTML = '<div class="card"><div class="card-body"><h3>Brak rezerwacji</h3><p class="meta">Gdy zarezerwujesz termin, pojawi się tutaj.</p></div></div>';
+      return;
+    }
+    el.innerHTML = items.map(i=>`
+      <div class="card booking" data-row="${i.row}" data-event="${i.event_id||''}">
+        <div class="card-body">
+          <div class="meta">${i.group||'Trening'}${i.room?` • Sala ${i.room}`:''}${i.coach?` • ${i.coach}`:''}</div>
+          <h3>${i.label}</h3>
+          <div class="meta">Email: ${i.user_email}</div>
+          <div class="meta">ISO: ${i.iso}</div>
+          <span class="badge">${i.status || 'Zarezerwowane'}</span>
+        </div>
+        <div class="actions card-body">
+          ${ (i.status||'').toLowerCase()==='anulowane' ? '' : '<button class="btn btn-outline cancel">Anuluj</button>' }
+        </div>
+      </div>
+    `).join('');
+    el.querySelectorAll('.cancel').forEach(btn=>{
+      btn.addEventListener('click', async ()=>{
+        const card = btn.closest('.booking');
+        const row = card.dataset.row;
+        const eventId = card.dataset.event;
+        if(!confirm('Na pewno anulować tę rezerwację?')) return;
+        const token = user?.token?.access_token || (await user.jwt());
+        const resp = await fetch('/.netlify/functions/cancel-booking', {
+          method: 'POST',
+          headers: { 'Content-Type':'application/json', Authorization: 'Bearer '+token },
+          body: JSON.stringify({ row, eventId })
+        });
+        const data = await resp.json();
+        if(resp.ok){
+          btn.remove();
+          card.querySelector('.badge').textContent='Anulowane';
+          alert('Rezerwacja anulowana.');
+        }else{
+          alert('Błąd: ' + (data.error || 'Nie udało się anulować'));
+        }
+      });
+    });
+  }
+  </script>
+</body>
+</html>
