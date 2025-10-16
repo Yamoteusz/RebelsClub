@@ -34,11 +34,39 @@
     if(user){ auth.textContent = user.email; } 
     else { auth.innerHTML = 'Niezalogowano — <a href="#" onclick="window.netlifyIdentity.open();return false;">Zaloguj</a>'; }
   }
-  if (window.netlifyIdentity){
-    window.netlifyIdentity.on('init', u=>{user=u; updateAuth(); if(u) load();});
-    window.netlifyIdentity.on('login', u=>{user=u; updateAuth(); location.reload();});
-    window.netlifyIdentity.on('logout', ()=>{user=null; updateAuth(); location.reload();});
+  let loading = false;
+
+  async function load(){
+    if (!user || loading) return;
+    loading = true;
+    try {
+      const token = user?.token?.access_token || (await user.jwt());
+      const r = await fetch('/.netlify/functions/list-bookings', {
+        headers: { Authorization: 'Bearer ' + token }
+      });
+      const data = await r.json();
+      render(data.items || []);
+    } catch(e){
+      document.getElementById('list').innerHTML =
+        '<div class="card"><div class="card-body"><h3>Błąd</h3><p class="meta">Nie udało się pobrać rezerwacji.</p></div></div>';
+    } finally {
+      loading = false;
+    }
   }
+
+if (window.netlifyIdentity){
+  window.netlifyIdentity.on('init',  u => { user = u; updateAuth(); if(u) load(); });
+  window.netlifyIdentity.on('login', async u => { user = u; updateAuth(); await load(); });
+  window.netlifyIdentity.on('logout', () => {
+    user = null; updateAuth();
+    document.getElementById('list').innerHTML =
+      '<div class="card"><div class="card-body"><h3>Brak rezerwacji</h3><p class="meta">Zaloguj się, aby je zobaczyć.</p></div></div>';
+  });
+  // na wypadek gdy widget był już zainicjalizowany:
+  setTimeout(()=>{ const u = window.netlifyIdentity.currentUser(); if(u){ user=u; updateAuth(); load(); } else { updateAuth(); }}, 150);
+}
+
+
 
   async function load(){
     const token = user?.token?.access_token || (await user.jwt());
