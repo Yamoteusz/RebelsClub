@@ -42,4 +42,8 @@
 .dropdown[hidden]{ display:none !important; }
 .user-menu{ position:relative; }
 
+.slot-btn.card h3 { color: var(--text, #e5e7eb); }
+.slot-btn.card .meta { color: var(--muted, #94a3b8); }
+
+
 

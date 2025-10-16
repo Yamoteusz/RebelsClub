@@ -55,11 +55,36 @@
         <input type="hidden" name="coach" id="f-coach">
         <input type="hidden" name="room" id="f-room">
         <input type="hidden" name="capacity" id="f-cap">
+        <input type="hidden" name="first_name" id="f-first">
+        <input type="hidden" name="last_name"  id="f-last">
+        <input type="hidden" name="phone"      id="f-phone">
+        <input type="hidden" name="ics"        id="f-ics">  <!-- treść pliku .ics -->
       </form>
+      <!-- Modal rezerwacji -->
+      <div id="res-modal" class="card" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,.55); z-index:50; align-items:center; justify-content:center;">
+        <div class="card" style="max-width:520px; width:92%; border-radius:16px;">
+          <div class="card-body">
+            <h3>Uzupełnij dane do rezerwacji</h3>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:8px;">
+              <label>Imię<input id="u-first" type="text" required></label>
+              <label>Nazwisko<input id="u-last" type="text" required></label>
+              <label style="grid-column:1/-1;">Telefon<input id="u-phone" type="tel" required placeholder="+48 600 000 000"></label>
+              <label style="grid-column:1/-1;">E-mail<input id="u-email" type="email" required></label>
+            </div>
+            <div style="display:flex; gap:10px; margin-top:14px;">
+              <button class="btn"           id="u-submit">Zarezerwuj</button>
+              <button class="btn btn-outline" id="u-cancel">Anuluj</button>
+            </div>
+            <p class="meta" style="margin-top:10px;">Złożenie rezerwacji oznacza zgodę na kontakt mailowy/telefoniczny w sprawie zajęć.</p>
+          </div>
+        </div>
+      </div>
+
     </div>
   </section>
 
   <script>
+  const MIN_ADVANCE_HOURS = 24;
   const DAYS = ["Niedziela","Poniedziałek","Wtorek","Środa","Czwartek","Piątek","Sobota"];
   const MONTHS = ["stycznia","lutego","marca","kwietnia","maja","czerwca","lipca","sierpnia","września","października","listopada","grudnia"];
   const asList = d => Array.isArray(d)?d:(d&&Array.isArray(d.ROOT)?d.ROOT:[]);
@@ -144,7 +169,8 @@
         const start = new Date(d.getFullYear(), d.getMonth(), d.getDate(), sh, sm||0, 0);
         const end   = new Date(d.getFullYear(), d.getMonth(), d.getDate(), eh, em||0, 0);
         for(let t=new Date(start); t<end; t = new Date(t.getTime()+step*60000)){
-          if (t < new Date()) continue;
+          const cutoff = new Date(Date.now() + MIN_ADVANCE_HOURS * 3600_000);
+          if (t < cutoff) continue;
           slotsByDay[key].slots.push({
             iso: t.toISOString(),
             time: `${pad(t.getHours())}:${pad(t.getMinutes())}`,
@@ -177,25 +203,68 @@
 
     grid.innerHTML = cols;
 
+    let pickedSlot = null;
+
     grid.querySelectorAll('button.slot-btn').forEach(btn=>{
       btn.addEventListener('click', ()=>{
-        downloadICS({
-          title: `Rezerwacja — ${btn.dataset.group}`,
-          startISO: btn.dataset.iso,
-          durationMin: 30,
-          description: `Użytkownik: ${currentUser?.email || ''}\nSala: ${btn.dataset.room || ''}\nTrener: ${btn.dataset.coach || ''}`,
-          location: 'Rebels Club, Twardogóra, Plac Piastów 24'
-        });
-        document.getElementById('f-user').value  = currentUser?.email || '';
-        document.getElementById('f-iso').value   = btn.dataset.iso;
-        document.getElementById('f-label').value = btn.dataset.label;
-        document.getElementById('f-group').value = btn.dataset.group;
-        document.getElementById('f-coach').value = btn.dataset.coach;
-        document.getElementById('f-room').value  = btn.dataset.room;
-        document.getElementById('f-cap').value   = btn.dataset.cap || '1';
-        document.getElementById('book-form').submit();
+        // zapamiętaj kliknięty slot
+        pickedSlot = {
+          iso:   btn.dataset.iso,
+          label: btn.dataset.label,
+          group: btn.dataset.group,
+          coach: btn.dataset.coach,
+          room:  btn.dataset.room,
+          cap:   btn.dataset.cap || '1'
+        };
+        // prefill e-mail z Identity
+        document.getElementById('u-email').value = currentUser?.email || '';
+        // pokaż modal
+        document.getElementById('res-modal').style.display = 'flex';
       });
     });
+
+        // Modal: anuluj
+    document.getElementById('u-cancel').addEventListener('click', ()=>{
+      document.getElementById('res-modal').style.display = 'none';
+    });
+
+    // Modal: wyślij
+    document.getElementById('u-submit').addEventListener('click', ()=>{
+      const first = document.getElementById('u-first').value.trim();
+      const last  = document.getElementById('u-last').value.trim();
+      const phone = document.getElementById('u-phone').value.trim();
+      const email = document.getElementById('u-email').value.trim();
+      if(!first || !last || !phone || !email){
+        alert('Uzupełnij wszystkie pola.'); return;
+      }
+
+      // wypełnij hiddeny formularza Netlify
+      document.getElementById('f-first').value = first;
+      document.getElementById('f-last').value  = last;
+      document.getElementById('f-phone').value = phone;
+      document.getElementById('f-user').value  = email;
+
+      document.getElementById('f-iso').value   = pickedSlot.iso;
+      document.getElementById('f-label').value = pickedSlot.label;
+      document.getElementById('f-group').value = pickedSlot.group;
+      document.getElementById('f-coach').value = pickedSlot.coach;
+      document.getElementById('f-room').value  = pickedSlot.room;
+      document.getElementById('f-cap').value   = pickedSlot.cap;
+
+      // generujemy treść ICS i wkładamy do pola "ics" (żadnego pobierania)
+      const icsTxt = icsContent({
+        title: `Rezerwacja — ${pickedSlot.group}`,
+        startISO: pickedSlot.iso,
+        durationMin: 30,
+        description: `Użytkownik: ${first} ${last} (${email}, tel. ${phone})\nSala: ${pickedSlot.room||''}\nTrener: ${pickedSlot.coach||''}`,
+        location: 'Rebels Club, Twardogóra, Plac Piastów 24'
+      });
+      document.getElementById('f-ics').value = icsTxt;
+
+      document.getElementById('res-modal').style.display = 'none';
+      document.getElementById('book-form').submit();
+    });
+
 
     document.getElementById('prev').onclick = ()=>{ if(startOffset>=7){ startOffset-=7; buildGrid(); } };
     document.getElementById('next').onclick = ()=>{ startOffset+=7; buildGrid(); };
