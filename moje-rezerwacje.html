@@ -27,97 +27,113 @@
     <div id="list" class="bookings"></div>
   </div></section>
 
-  <script>
-  let user=null;
-  const auth=document.getElementById('auth');
-  function updateAuth(){
-    if(user){ auth.textContent = user.email; } 
-    else { auth.innerHTML = 'Niezalogowano — <a href="#" onclick="window.netlifyIdentity.open();return false;">Zaloguj</a>'; }
-  }
-  let loading = false;
 
+  <script>
+  // === AUTH + STAN ===
+  let user = null;
+  const auth = document.getElementById('auth');
+  const listEl = document.getElementById('list');
+
+  function updateAuth(){
+    if (user) {
+      auth.textContent = user.email;
+    } else {
+      auth.innerHTML = 'Niezalogowano — <a href="#" onclick="window.netlifyIdentity.open();return false;">Zaloguj</a>';
+      listEl.innerHTML = '<div class="card"><div class="card-body"><h3>Brak rezerwacji</h3><p class="meta">Zaloguj się, aby je zobaczyć.</p></div></div>';
+    }
+  }
+
+  // === ŁADOWANIE LISTY Z FUNKCJI my-bookings ===
+  let loading = false;
   async function load(){
     if (!user || loading) return;
     loading = true;
     try {
-      const token = user?.token?.access_token || (await user.jwt());
-      const r = await fetch('/.netlify/functions/list-bookings', {
+      const token = await user.jwt();
+      const r = await fetch('/.netlify/functions/my-bookings', {
         headers: { Authorization: 'Bearer ' + token }
       });
       const data = await r.json();
-      render(data.items || []);
-    } catch(e){
-      document.getElementById('list').innerHTML =
-        '<div class="card"><div class="card-body"><h3>Błąd</h3><p class="meta">Nie udało się pobrać rezerwacji.</p></div></div>';
+      render(Array.isArray(data.items) ? data.items : []);
+    } catch (e) {
+      listEl.innerHTML = '<div class="card"><div class="card-body"><h3>Błąd</h3><p class="meta">Nie udało się pobrać rezerwacji.</p></div></div>';
     } finally {
       loading = false;
     }
   }
 
-if (window.netlifyIdentity){
-  window.netlifyIdentity.on('init',  u => { user = u; updateAuth(); if(u) load(); });
-  window.netlifyIdentity.on('login', async u => { user = u; updateAuth(); await load(); });
-  window.netlifyIdentity.on('logout', () => {
-    user = null; updateAuth();
-    document.getElementById('list').innerHTML =
-      '<div class="card"><div class="card-body"><h3>Brak rezerwacji</h3><p class="meta">Zaloguj się, aby je zobaczyć.</p></div></div>';
-  });
-  // na wypadek gdy widget był już zainicjalizowany:
-  setTimeout(()=>{ const u = window.netlifyIdentity.currentUser(); if(u){ user=u; updateAuth(); load(); } else { updateAuth(); }}, 150);
-}
-
-
-
-  async function load(){
-    const token = user?.token?.access_token || (await user.jwt());
-    const r = await fetch('/.netlify/functions/list-bookings', { headers: { Authorization: 'Bearer '+token } });
-    const data = await r.json();
-    render(data.items||[]);
+  // === Identity wydarzenia ===
+  if (window.netlifyIdentity){
+    window.netlifyIdentity.on('init',  u => { user = u; updateAuth(); if (u) load(); });
+    window.netlifyIdentity.on('login', async u => { user = u; updateAuth(); await load(); });
+    window.netlifyIdentity.on('logout', () => { user = null; updateAuth(); });
+    // jeśli widget już był zainicjalizowany:
+    setTimeout(() => {
+      const u = window.netlifyIdentity.currentUser();
+      user = u || null;
+      updateAuth();
+      if (u) load();
+    }, 150);
+  } else {
+    updateAuth();
   }
 
+  // === RENDER + ANULOWANIE (cancel-booking) ===
   function render(items){
-    const el = document.getElementById('list');
-    if(!items.length){
-      el.innerHTML = '<div class="card"><div class="card-body"><h3>Brak rezerwacji</h3><p class="meta">Gdy zarezerwujesz termin, pojawi się tutaj.</p></div></div>';
+    if (!items.length){
+      listEl.innerHTML = '<div class="card"><div class="card-body"><h3>Brak rezerwacji</h3><p class="meta">Gdy zarezerwujesz termin, pojawi się tutaj.</p></div></div>';
       return;
     }
-    el.innerHTML = items.map(i=>`
-      <div class="card booking" data-row="${i.row}" data-event="${i.event_id||''}">
+
+    // UWAGA: pola odpowiadają temu co zwraca funkcja my-bookings:
+    //  slot_label, slot_iso, group, coach, room, status, email, created_at
+    listEl.innerHTML = items.map(i => `
+      <div class="card booking" data-iso="${i.slot_iso}">
         <div class="card-body">
-          <div class="meta">${i.group||'Trening'}${i.room?` • Sala ${i.room}`:''}${i.coach?` • ${i.coach}`:''}</div>
-          <h3>${i.label}</h3>
-          <div class="meta">Email: ${i.user_email}</div>
-          <div class="meta">ISO: ${i.iso}</div>
-          <span class="badge">${i.status || 'Zarezerwowane'}</span>
+          <div class="meta">
+            ${i.group || 'Trening'}${i.room ? ` • Sala ${i.room}` : ''}${i.coach ? ` • ${i.coach}` : ''}
+          </div>
+          <h3>${i.slot_label}</h3>
+          <div class="meta">E-mail: ${i.email || ''}</div>
+          <span class="badge">${(i.status || 'Zatwierdzone')}</span>
         </div>
         <div class="actions card-body">
-          ${ (i.status||'').toLowerCase()==='anulowane' ? '' : '<button class="btn btn-outline cancel">Anuluj</button>' }
+          ${ String(i.status).toLowerCase() === 'anulowane' ? '' : '<button class="btn btn-outline cancel">Anuluj</button>' }
         </div>
       </div>
     `).join('');
-    el.querySelectorAll('.cancel').forEach(btn=>{
+
+    // bind anulowania — wysyłamy TYLKO slot_iso do funkcji cancel-booking
+    listEl.querySelectorAll('.cancel').forEach(btn => {
       btn.addEventListener('click', async ()=>{
         const card = btn.closest('.booking');
-        const row = card.dataset.row;
-        const eventId = card.dataset.event;
-        if(!confirm('Na pewno anulować tę rezerwację?')) return;
-        const token = user?.token?.access_token || (await user.jwt());
-        const resp = await fetch('/.netlify/functions/cancel-booking', {
-          method: 'POST',
-          headers: { 'Content-Type':'application/json', Authorization: 'Bearer '+token },
-          body: JSON.stringify({ row, eventId })
-        });
-        const data = await resp.json();
-        if(resp.ok){
-          btn.remove();
-          card.querySelector('.badge').textContent='Anulowane';
+        const slotISO = card.dataset.iso;
+        if (!confirm('Na pewno anulować tę rezerwację?')) return;
+
+        try {
+          const token = await user.jwt();
+          const resp = await fetch('/.netlify/functions/cancel-booking', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: 'Bearer ' + token
+            },
+            body: JSON.stringify({ slot_iso: slotISO })
+          });
+          const j = await resp.json().catch(()=>({}));
+          if (!resp.ok || !j.ok) throw new Error(j.error || 'Błąd anulowania');
+
+          // odśwież listę po anulowaniu
+          await load();
           alert('Rezerwacja anulowana.');
-        }else{
-          alert('Błąd: ' + (data.error || 'Nie udało się anulować'));
+        } catch(e){
+          alert('Błąd: ' + (e.message || 'Nie udało się anulować.'));
         }
       });
     });
   }
-  </script>
+</script>
+
+
 </body>
 </html>

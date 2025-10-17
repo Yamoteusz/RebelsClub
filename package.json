@@ -2,13 +2,12 @@
   "name": "rebelsclub",
   "private": true,
   "version": "1.0.0",
+  "engines": { "node": "18.x" },
+  "dependencies": {
+    "@netlify/blobs": "^6.3.0",
+    "resend": "^3.2.0"
+  },
   "scripts": {
     "build": "echo \"static site\""
-  },
-  "engines": {
-    "node": "18.x"
-  },
-  "dependencies": {
-    "googleapis": "^129.0.0"
   }
 }

@@ -228,42 +228,55 @@
       document.getElementById('res-modal').style.display = 'none';
     });
 
-    // Modal: wyślij
-    document.getElementById('u-submit').addEventListener('click', ()=>{
+    // Modal: wyślij (do funkcji Netlify)
+    document.getElementById('u-submit').addEventListener('click', async ()=>{
       const first = document.getElementById('u-first').value.trim();
       const last  = document.getElementById('u-last').value.trim();
       const phone = document.getElementById('u-phone').value.trim();
       const email = document.getElementById('u-email').value.trim();
-      if(!first || !last || !phone || !email){
+      if (!first || !last || !phone || !email) {
         alert('Uzupełnij wszystkie pola.'); return;
       }
 
-      // wypełnij hiddeny formularza Netlify
-      document.getElementById('f-first').value = first;
-      document.getElementById('f-last').value  = last;
-      document.getElementById('f-phone').value = phone;
-      document.getElementById('f-user').value  = email;
+      // token z Netlify Identity (jeśli user jest zalogowany)
+      const user  = window.netlifyIdentity?.currentUser && window.netlifyIdentity.currentUser();
+      const token = user ? await user.jwt() : null;
 
-      document.getElementById('f-iso').value   = pickedSlot.iso;
-      document.getElementById('f-label').value = pickedSlot.label;
-      document.getElementById('f-group').value = pickedSlot.group;
-      document.getElementById('f-coach').value = pickedSlot.coach;
-      document.getElementById('f-room').value  = pickedSlot.room;
-      document.getElementById('f-cap').value   = pickedSlot.cap;
+      // dane do zapisu
+      const payload = {
+        user_email: email,
+        first_name: first,
+        last_name:  last,
+        phone,
+        slot_iso:   pickedSlot.iso,
+        slot_label: pickedSlot.label,
+        group:      pickedSlot.group,
+        coach:      pickedSlot.coach,
+        room:       pickedSlot.room,
+        capacity:   Number(pickedSlot.cap || 1)
+      };
 
-      // generujemy treść ICS i wkładamy do pola "ics" (żadnego pobierania)
-      const icsTxt = icsContent({
-        title: `Rezerwacja — ${pickedSlot.group}`,
-        startISO: pickedSlot.iso,
-        durationMin: 30,
-        description: `Użytkownik: ${first} ${last} (${email}, tel. ${phone})\nSala: ${pickedSlot.room||''}\nTrener: ${pickedSlot.coach||''}`,
-        location: 'Rebels Club, Twardogóra, Plac Piastów 24'
-      });
-      document.getElementById('f-ics').value = icsTxt;
-
-      document.getElementById('res-modal').style.display = 'none';
-      document.getElementById('book-form').submit();
+      try {
+        const res  = await fetch('/.netlify/functions/create-booking', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            ...(token ? { Authorization: 'Bearer ' + token } : {})
+          },
+          body: JSON.stringify(payload)
+        });
+        const data = await res.json().catch(()=>({}));
+        if (!res.ok || !data.ok) {
+          alert(data.error || 'Nie udało się zapisać (spróbuj inny termin).');
+          return;
+        }
+        document.getElementById('res-modal').style.display = 'none';
+        location.href = '/moje-rezerwacje.html';
+      } catch (e) {
+        alert('Błąd połączenia. Spróbuj ponownie.');
+      }
     });
+
 
 
     document.getElementById('prev').onclick = ()=>{ if(startOffset>=7){ startOffset-=7; buildGrid(); } };
