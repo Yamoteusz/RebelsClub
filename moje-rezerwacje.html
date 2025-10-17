@@ -46,30 +46,23 @@
   // === ŁADOWANIE LISTY Z FUNKCJI my-bookings ===
   let loading = false;
   async function load(){
-  if (!user || loading) return;
-  loading = true;
-  try {
-    // spróbuj pobrać token; jeśli się nie uda, użyj fallbacku z ?email=
-    let token = null;
-    try { token = await user.jwt(); } catch(e){ token = null; }
+    if (!user || loading) return;
+    loading = true;
+    try {
+      // zawsze query-string z e-mailem (prosto i bez tokena)
+      const url = '/.netlify/functions/my-bookings?email=' + encodeURIComponent(user.email);
 
-    const url = token
-      ? '/.netlify/functions/my-bookings'
-      : '/.netlify/functions/my-bookings?email=' + encodeURIComponent(user.email);
-
-    const r = await fetch(url, {
-      headers: token ? { Authorization: 'Bearer ' + token } : {}
-    });
-
-    const data = await r.json();
-    render(Array.isArray(data.items) ? data.items : []);
-  } catch (e) {
-    listEl.innerHTML =
-      '<div class="card"><div class="card-body"><h3>Błąd</h3><p class="meta">Nie udało się pobrać rezerwacji.</p></div></div>';
-  } finally {
-    loading = false;
+      const r = await fetch(url); // bez headers
+      const data = await r.json();
+      render(Array.isArray(data.items) ? data.items : []);
+    } catch (e) {
+      listEl.innerHTML =
+        '<div class="card"><div class="card-body"><h3>Błąd</h3><p class="meta">Nie udało się pobrać rezerwacji.</p></div></div>';
+    } finally {
+      loading = false;
+    }
   }
-}
+
 
 
   // === Identity wydarzenia ===

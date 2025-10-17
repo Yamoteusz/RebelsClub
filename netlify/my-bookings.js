@@ -7,13 +7,11 @@ const json = (obj, status = 200) =>
     headers: { 'content-type': 'application/json; charset=utf-8' }
   });
 
-export default async (req, context) => {
+export default async (req) => {
   try {
-    const user = context.clientContext?.user || null;
-    const emailParam = new URL(req.url).searchParams.get('email') || '';
-    const email = (user?.email || emailParam || '').toLowerCase();
-
-    if (!email) return json({ ok: false, error: 'No user' }, 401);
+    const url = new URL(req.url);
+    const email = (url.searchParams.get('email') || '').trim().toLowerCase();
+    if (!email) return json({ ok: false, error: 'No email' }, 400);
 
     const store = getStore({ name: 'bookings' });
     const list = await store.list({ prefix: `user/${email}/` });
