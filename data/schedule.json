@@ -51,17 +51,17 @@
     },
     {
       "day": "Środa",
-      "time": "18:15-19:15",
-      "group": "Zajęcia ogólnorozwojowe dla dzieci 10-16 lat",
-      "coach": "Marcin",
-      "room": "16"
-    },
-    {
-      "day": "Środa",
       "time": "18:00-19:00",
       "group": "MMA",
       "coach": "Darek",
       "room": "17"
+    },
+    {
+      "day": "Środa",
+      "time": "18:15-19:15",
+      "group": "Zajęcia ogólnorozwojowe dla dzieci 10-16 lat",
+      "coach": "Marcin",
+      "room": "16"
     },
     {
       "day": "Czwartek",
