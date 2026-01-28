@@ -43,7 +43,7 @@
         <h1 class="club-name">Rebels Club — klub sportów walki</h1>
         <p>Kickboxing • Boks • MMA. <strong class="cta-text"></strong>.</p>
         <div class="hero-cta">
-          <a class="btn" href="/rezerwacje.html" id="cta-trening">Zapisz się na trening</a>
+          <a class="btn" href="#kontakt" id="cta-trening">Skontaktuj się z nami</a>
           <a href="#grafik" class="btn btn-outline" aria-label="Zobacz grafik">Zobacz grafik</a>
         </div>
         <div id="stats" style="display:flex; gap:10px; margin-top:16px; flex-wrap:wrap;"></div>
@@ -166,7 +166,6 @@
         el.innerHTML = `
           <div class="user-menu">
             <button class="btn" id="btn-login">Zaloguj / Zarejestruj</button>
-            <a class="btn btn-outline" href="/rezerwacje.html" style="margin-left:8px;">Rezerwacje</a>
           </div>`;
         document.getElementById('btn-login')?.addEventListener('click', e=>{
           e.preventDefault(); window.netlifyIdentity?.open();
@@ -183,8 +182,6 @@
             <span class="email">${email}</span>
           </button>
           <div class="dropdown" id="menuDrop" hidden>
-            <a href="/rezerwacje.html">🗓 Rezerwacje</a>
-            <a href="/moje-rezerwacje.html">⭐ Moje rezerwacje</a>
             ${staff ? '<a href="/admin/">🛠 CMS</a>' : ''}
             <button id="btn-logout">🚪 Wyloguj</button>
           </div>
