@@ -2,31 +2,101 @@
   "ROOT": [
     {
       "day": "Poniedziałek",
-      "time": "20:00-21:00",
-      "group": "Kickboxing",
+      "time": "17:00-18:00",
+      "group": "Zajęcia ogólnorozwojowe dla dzieci 6-9 lat",
       "coach": "Marcin",
-      "room": "A"
+      "room": "16"
     },
     {
       "day": "Poniedziałek",
-      "time": "19:45–21:15",
-      "group": "Boks — zaawansowana",
-      "coach": "Kuba",
-      "room": "A"
+      "time": "18:15-19:15",
+      "group": "Zajęcia ogólnorozwojowe dla dzieci 10-16 lat",
+      "coach": "Marcin",
+      "room": "16"
+    },
+    {
+      "day": "Poniedziałek",
+      "time": "20:00-21:00",
+      "group": "Kalistenika",
+      "coach": "Marcin",
+      "room": "16"
     },
     {
       "day": "Wtorek",
-      "time": "18:30–20:00",
-      "group": "MMA — technika & parter",
-      "coach": "Kuba",
-      "room": "B"
+      "time": "17:00–18:00",
+      "group": "Kickboxing",
+      "coach": "Darek",
+      "room": "17"
+    },
+    {
+      "day": "Wotrek",
+      "time": "18:15-19:15",
+      "group": "BOKS",
+      "coach": "Marcin",
+      "room": "17"
+    },
+    {
+      "day": "Wtorek",
+      "time": "19:30-20:30",
+      "group": "MMA",
+      "coach": "Darek",
+      "room": "17"
+    },
+    {
+      "day": "Środa",
+      "time": "17:00-18:00",
+      "group": "Zajęcia ogólnorozwojowe dla dzieci 6-9 lat",
+      "coach": "Marcin",
+      "room": "16"
+    },
+    {
+      "day": "Środa",
+      "time": "18:15-19:15",
+      "group": "Zajęcia ogólnorozwojowe dla dzieci 10-16 lat",
+      "coach": "Marcin",
+      "room": "16"
     },
     {
       "day": "Środa",
       "time": "18:00-19:00",
-      "group": "Młodziki",
+      "group": "MMA",
+      "coach": "Darek",
+      "room": "17"
+    },
+    {
+      "day": "Czwartek",
+      "time": "17:30-18:30",
+      "group": "BOKS",
       "coach": "Marcin",
-      "room": "B"
+      "room": "17"
+    },
+    {
+      "day": "Czwartek",
+      "time": "19:00-20:00",
+      "group": "MMA",
+      "coach": "Darek",
+      "room": "17"
+    },
+    {
+      "day": "Czwartek",
+      "time": "19:00-20:00",
+      "group": "Kalistenika",
+      "coach": "Marcin",
+      "room": "16"
+    },
+    {
+      "day": "Piątek",
+      "time": "17:00-18:00",
+      "group": "Kickboxing",
+      "coach": "darek",
+      "room": "17"
+    },
+    {
+      "day": "Czawrtek",
+      "time": "18:15-19:15",
+      "group": "MMA",
+      "coach": "Darek",
+      "room": "17"
     }
   ]
 }
