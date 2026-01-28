@@ -45,5 +45,38 @@
 .slot-btn.card h3 { color: var(--text, #e5e7eb); }
 .slot-btn.card .meta { color: var(--muted, #94a3b8); }
 
+/* Naprawa tego gówna z mapą */
+.contact-wrapper {
+    display: block; /* Jeśli chcesz mapę na całą szerokość containera */
+    width: 100%;
+}
 
+.map-container {
+    height: 350px; 
+    width: 100%; 
+    border-radius: 12px; 
+    border: 1px solid #1b2030; 
+    background: #0b0e14; 
+    overflow: hidden; 
+    margin-top: 16px;
+}
+
+.map-container iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+}
+
+.contact-socials {
+    display: flex; 
+    gap: 10px; 
+    margin-top: 16px;
+    flex-wrap: wrap;
+}
+
+/* Żeby na kompie nie była za chuda, jeśli wolisz stary układ 2-kolumnowy */
+@media (min-width: 860px) {
+    /* Odkomentuj poniższe, jeśli chcesz wrócić do dwóch kolumn obok siebie */
+    /* .contact-wrapper { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; } */
+}
 
