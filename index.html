@@ -73,16 +73,41 @@
 
   <section id="kontakt">
     <div class="container">
-      <div class="sec-head">
-        <h2 class="sec-title">Kontakt</h2>
-      </div>
-      <div class="card" id="contact-block">
-        <div class="card-body">
-          <!-- Wycentrowana mapa -->
-          <div style="display:grid; place-items:center;">
-            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2367.689219869897!2d17.14223481576889!3d51.29918368202716!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x470ff6d5f8a99fdb%3A0xa7eec303db15d1d5!2zVHBvZG9n3PTQJQmJhSW9cQxg!5e0!3m2!1spl!2spl!4v1636578152762!5m2!1spl!2spl" style="width:100%; height: 400px; border:0; margin-top: 10px;" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="sec-head"><h2 class="sec-title">Kontakt</h2></div>
+      <div style="display:grid;grid-template-columns:1fr .9fr;gap:20px;">
+        <div class="card" id="contact-block">
+          <div class="card-body">
+            <p class="meta address">—</p>
+            <p class="meta">Mail: <span class="email">—</span></p>
+            <div style="height: 260px; border-radius:12px; border:1px solid #1b2030; background:#0b0e14; overflow:hidden; margin-top:10px;">
+              <iframe title="Mapa Rebels Club" width="100%" height="260" style="border:0" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+                src="https://www.google.com/maps?q=Twardog%C3%B3ra%2C%20Plac%20Piast%C3%B3w%2024&output=embed"></iframe>
+            </div>
+            <div style="display:flex; gap:10px; margin-top:12px;">
+              <a class="btn btn-outline ig" href="#">Instagram</a>
+              <a class="btn btn-outline fb" href="#">Facebook</a>
+              <a class="btn btn-outline yt" href="#">YouTube</a>
+            </div>
           </div>
         </div>
+        <form name="kontakt" method="POST" action="/thanks.html"
+              netlify netlify-honeypot="bot-field" aria-label="Formularz kontaktowy">
+          <input type="hidden" name="form-name" value="kontakt" />
+          <p style="display:none"><label>Nie wypełniaj: <input name="bot-field" /></label></p>
+          <label><span class="meta">Imię i nazwisko</span><input required type="text" name="name" placeholder="Jan Kowalski" /></label>
+          <label><span class="meta">E-mail</span><input required type="email" name="email" placeholder="jan@example.com" /></label>
+          <label><span class="meta">Temat</span>
+            <select name="topic" required>
+              <option value="Trening">Trening</option>
+              <option value="Współpraca">Współpraca</option>
+              <option value="Inna sprawa">Inna sprawa</option>
+            </select>
+          </label>
+          <label><span class="meta">Wiadomość</span><textarea rows="5" name="message" placeholder="Napisz, w czym możemy pomóc…" required></textarea></label>
+          <label style="display:flex;gap:10px;align-items:flex-start;"><input type="checkbox" name="rodo" required /><span class="meta">Wyrażam zgodę na przetwarzanie moich danych osobowych w celu kontaktu.</span></label>
+          <button class="btn" type="submit">Wyślij</button>
+          <p class="meta">Przesyłając formularz, akceptujesz politykę prywatności i RODO klubu.</p>
+        </form>
       </div>
     </div>
   </section>
@@ -97,7 +122,7 @@
   </section>
 
 
-  <footer><div class="container footer-grid"><div><div class="brand" style="margin-bottom:8px;"><img class="brand-logo" src="images/uploads/rebels.png" alt="Rebels Club" /><strong class="club-name">Rebels Club</strong></div><p class="meta">© <span id="year"></span> <span class="club-name">Rebels Club</span>. Wszelkie prawa zastrzeżone.</p></div><div><div class="meta"></div></div></div></div></footer>
+  <footer><div class="container footer-grid"><div><div class="brand" style="margin-bottom:8px;"><img class="brand-logo" src="images/uploads/rebels.png" alt="Rebels Club" /><strong class="club-name">Rebels Club</strong></div><p class="meta">© <span id="year"></span> <span class="club-name">Rebels Club</span>. Wszelkie prawa zastrzeżone.</p></div><div><div class="meta">Regulamin • RODO • Polityka prywatności</div></div></div></div></footer>
   <script src="js/app.js"></script>
   <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
   <script>
