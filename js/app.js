@@ -43,9 +43,10 @@ const asList = (data) =>
   if(stats&&site.stats){
     stats.innerHTML = `
       <div class="stat"><div class="v">${site.stats.members||0}+</div><div class="meta">aktywnych klubowiczów</div></div>
-      <div class="stat"><div class="v">${site.stats.medals||0}</div><div class="meta">medali 2024–2025</div></div>
       <div class="stat"><div class="v">${site.stats.founded||''}</div><div class="meta">rok założenia</div></div>`;
   }
+
+  //      <div class="stat"><div class="v">${site.stats.medals||0}</div><div class="meta">medali</div></div>
 
   // === DZISIEJSZE TRENINGI z grafiku ===
   const hero = document.getElementById('hero-trainings');
