@@ -73,30 +73,44 @@
 
   <section id="kontakt">
     <div class="container">
-      <div class="sec-head">
-        <h2 class="sec-title">Kontakt</h2>
-      </div>
-      <div style="display:grid; grid-template-columns: 1fr; justify-items: center; gap: 20px;">
+      <div class="sec-head"><h2 class="sec-title">Kontakt</h2></div>
+      <div style="display:grid;grid-template-columns:1fr .9fr;gap:20px;">
         <div class="card" id="contact-block">
           <div class="card-body">
-            <p class="meta address">Mail: <span class="email"></span></p>
-            <div style="height: 260px; max-width: 1200px; width: 100%; border-radius:12px; border:1px solid #1b2030; background: #0b0e14; overflow:hidden; margin-top:10px;">
-              <!-- Wycentrowana mapa o większej szerokości -->
+            <p class="meta address">—</p>
+            <p class="meta">Mail: <span class="email">—</span></p>
+            <div style="height: 260px; border-radius:12px; border:1px solid #1b2030; background:#0b0e14; overflow:hidden; margin-top:10px;">
               <iframe title="Mapa Rebels Club" width="100%" height="260" style="border:0" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
                 src="https://www.google.com/maps?q=Twardog%C3%B3ra%2C%20Plac%20Piast%C3%B3w%2024&output=embed"></iframe>
             </div>
+            <div style="display:flex; gap:10px; margin-top:12px;">
+              <a class="btn btn-outline ig" href="#">Instagram</a>
+              <a class="btn btn-outline fb" href="#">Facebook</a>
+              <a class="btn btn-outline yt" href="#">YouTube</a>
+            </div>
           </div>
         </div>
-        <div style="display:flex; gap:10px; margin-top:12px;">
-          <a class="btn btn-outline ig" href="#">Instagram</a>
-          <a class="btn btn-outline fb" href="#">Facebook</a>
-          <a class="btn btn-outline yt" href="#">YouTube</a>
-        </div>
+        <form name="kontakt" method="POST" action="/thanks.html"
+              netlify netlify-honeypot="bot-field" aria-label="Formularz kontaktowy">
+          <input type="hidden" name="form-name" value="kontakt" />
+          <p style="display:none"><label>Nie wypełniaj: <input name="bot-field" /></label></p>
+          <label><span class="meta">Imię i nazwisko</span><input required type="text" name="name" placeholder="Jan Kowalski" /></label>
+          <label><span class="meta">E-mail</span><input required type="email" name="email" placeholder="jan@example.com" /></label>
+          <label><span class="meta">Temat</span>
+            <select name="topic" required>
+              <option value="Trening">Trening</option>
+              <option value="Współpraca">Współpraca</option>
+              <option value="Inna sprawa">Inna sprawa</option>
+            </select>
+          </label>
+          <label><span class="meta">Wiadomość</span><textarea rows="5" name="message" placeholder="Napisz, w czym możemy pomóc…" required></textarea></label>
+          <label style="display:flex;gap:10px;align-items:flex-start;"><input type="checkbox" name="rodo" required /><span class="meta">Wyrażam zgodę na przetwarzanie moich danych osobowych w celu kontaktu.</span></label>
+          <button class="btn" type="submit">Wyślij</button>
+          <p class="meta">Przesyłając formularz, akceptujesz politykę prywatności i RODO klubu.</p>
+        </form>
       </div>
     </div>
   </section>
-
-
 
   <section id="sponsorzy">
     <div class="container">
