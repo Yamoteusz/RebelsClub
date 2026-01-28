@@ -1,11 +1,10 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pl">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Rebels Club — klub sportów walki</title>
   <meta name="description" content="Rebels Club — klub sportów walki w Twardogórze. Kickboxing, boks, MMA." />
-<!-- <link rel="icon" href="/images/uploads/favicon.ico" /> -->
   <link rel="icon" type="images/uploads/png" href="/favicon-96x96.png" sizes="96x96" />
   <link rel="icon" type="images/uploads/svg+xml" href="/favicon.svg" />
   <link rel="shortcut icon" href="images/uploads/favicon.ico" />
@@ -18,7 +17,6 @@
     <div class="container nav-inner">
       <div class="brand">
         <img class="brand-logo" src="images/uploads/rebels.png" alt="Rebels Club" />
-        <!-- <div class="brand-mark" aria-hidden="true">R</div> -->
         <a href="#top" aria-label="Rebels Club — strona główna" class="club-name">Rebels Club</a>
       </div>
       <div class="nav-links" role="navigation" aria-label="Główna nawigacja">
@@ -57,19 +55,87 @@
     </div>
   </header>
 
-  <section id="o-nas"><div class="container"><div class="sec-head"><h2 class="sec-title">O nas</h2><span class="chip">#RebelsFightTogether</span></div><p>Rebels Club to miejsce, w którym <strong>dyscyplina</strong> spotyka <strong>pasję</strong>. Uczymy fundamentów i pomagamy rozwijać się zawodnikom — w ringu i poza nim. Stawiamy na technikę, kondycję oraz mental.</p></div></section>
+  <section id="o-nas">
+    <div class="container">
+      <div class="sec-head">
+        <h2 class="sec-title">O nas</h2>
+        <span class="chip">#RebelsFightTogether</span>
+      </div>
+      <p>Rebels Club to miejsce, w którym <strong>dyscyplina</strong> spotyka <strong>pasję</strong>. Uczymy fundamentów i pomagamy rozwijać się zawodnikom — w ringu i poza nim. Stawiamy na technikę, kondycję oraz mental.</p>
+    </div>
+  </section>
 
-  <section id="trenerzy"><div class="container"><div class="sec-head"><h2 class="sec-title">Trenerzy</h2></div><div class="cards" id="trainers"></div></div></section>
+  <section id="trenerzy">
+    <div class="container">
+      <div class="sec-head">
+        <h2 class="sec-title">Trenerzy</h2>
+      </div>
+      <div class="cards" id="trainers"></div>
+    </div>
+  </section>
 
-  <section id="zawodnicy"><div class="container"><div class="sec-head"><h2 class="sec-title">Zawodnicy</h2></div><div class="cards" id="athletes"></div></div></section>
+  <section id="zawodnicy">
+    <div class="container">
+      <div class="sec-head">
+        <h2 class="sec-title">Zawodnicy</h2>
+      </div>
+      <div class="cards" id="athletes"></div>
+    </div>
+  </section>
 
-  <section id="grafik"><div class="container"><div class="sec-head"><h2 class="sec-title">Grafik treningów</h2></div><div class="card"><div class="card-body" style="overflow:auto;"><table class="table"><thead><tr><th>Dzień</th><th>Godzina</th><th>Grupa</th><th>Trener</th><th>Sala</th></tr></thead><tbody id="schedule-body"></tbody></table></div></div></div></section>
+  <section id="grafik">
+    <div class="container">
+      <div class="sec-head">
+        <h2 class="sec-title">Grafik treningów</h2>
+      </div>
+      <div class="card">
+        <div class="card-body" style="overflow:auto;">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Dzień</th>
+                <th>Godzina</th>
+                <th>Grupa</th>
+                <th>Trener</th>
+                <th>Sala</th>
+              </tr>
+            </thead>
+            <tbody id="schedule-body"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
 
-  <section id="cennik"><div class="container"><div class="sec-head"><h2 class="sec-title">Cennik</h2></div><div class="price-grid" id="pricing"></div><p class="kudos">* Zniżki dla rodzeństw i uczniów — zapytaj w recepcji.</p></div></section>
+  <section id="cennik">
+    <div class="container">
+      <div class="sec-head">
+        <h2 class="sec-title">Cennik</h2>
+      </div>
+      <div class="price-grid" id="pricing"></div>
+      <p class="kudos">* Zniżki dla rodzeństw i uczniów — zapytaj w recepcji.</p>
+    </div>
+  </section>
 
-  <section id="regulamin"><div class="container"><div class="sec-head"><h2 class="sec-title">Regulamin klubu</h2></div><div class="card"><div class="card-body" id="rules"></div></div></div></section>
+  <section id="regulamin">
+    <div class="container">
+      <div class="sec-head">
+        <h2 class="sec-title">Regulamin klubu</h2>
+      </div>
+      <div class="card">
+        <div class="card-body" id="rules"></div>
+      </div>
+    </div>
+  </section>
 
-  <section id="aktualnosci"><div class="container"><div class="sec-head"><h2 class="sec-title">Aktualności</h2></div><div class="cards" id="news" style="grid-template-columns:1fr;"></div></div></section>
+  <section id="aktualnosci">
+    <div class="container">
+      <div class="sec-head">
+        <h2 class="sec-title">Aktualności</h2>
+      </div>
+      <div class="cards" id="news" style="grid-template-columns:1fr;"></div>
+    </div>
+  </section>
 
   <section id="kontakt">
     <div class="container">
@@ -79,7 +145,7 @@
           <div class="card-body">
             <p class="meta address">—</p>
             <p class="meta">Mail: <span class="email">—</span></p>
-            <div style="height: 260px; border-radius:12px; border:1px solid #1b2030; background:#0b0e14; overflow:hidden; margin-top:10px;">
+            <div style="height: 260px; max-width: 1200px; width: 100%; border-radius:12px; border:1px solid #1b2030; background: #0b0e14; overflow:hidden; margin-top:10px;">
               <iframe title="Mapa Rebels Club" width="100%" height="260" style="border:0" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
                 src="https://www.google.com/maps?q=Twardog%C3%B3ra%2C%20Plac%20Piast%C3%B3w%2024&output=embed"></iframe>
             </div>
@@ -90,24 +156,6 @@
             </div>
           </div>
         </div>
-        <form name="kontakt" method="POST" action="/thanks.html"
-              netlify netlify-honeypot="bot-field" aria-label="Formularz kontaktowy">
-          <input type="hidden" name="form-name" value="kontakt" />
-          <p style="display:none"><label>Nie wypełniaj: <input name="bot-field" /></label></p>
-          <label><span class="meta">Imię i nazwisko</span><input required type="text" name="name" placeholder="Jan Kowalski" /></label>
-          <label><span class="meta">E-mail</span><input required type="email" name="email" placeholder="jan@example.com" /></label>
-          <label><span class="meta">Temat</span>
-            <select name="topic" required>
-              <option value="Trening">Trening</option>
-              <option value="Współpraca">Współpraca</option>
-              <option value="Inna sprawa">Inna sprawa</option>
-            </select>
-          </label>
-          <label><span class="meta">Wiadomość</span><textarea rows="5" name="message" placeholder="Napisz, w czym możemy pomóc…" required></textarea></label>
-          <label style="display:flex;gap:10px;align-items:flex-start;"><input type="checkbox" name="rodo" required /><span class="meta">Wyrażam zgodę na przetwarzanie moich danych osobowych w celu kontaktu.</span></label>
-          <button class="btn" type="submit">Wyślij</button>
-          <p class="meta">Przesyłając formularz, akceptujesz politykę prywatności i RODO klubu.</p>
-        </form>
       </div>
     </div>
   </section>
@@ -121,111 +169,8 @@
     </div>
   </section>
 
-
   <footer><div class="container footer-grid"><div><div class="brand" style="margin-bottom:8px;"><img class="brand-logo" src="images/uploads/rebels.png" alt="Rebels Club" /><strong class="club-name">Rebels Club</strong></div><p class="meta">© <span id="year"></span> <span class="club-name">Rebels Club</span>. Wszelkie prawa zastrzeżone.</p></div><div><div class="meta">Regulamin • RODO • Polityka prywatności</div></div></div></div></footer>
   <script src="js/app.js"></script>
   <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-  <script>
-    if (window.netlifyIdentity) {
-      window.netlifyIdentity.on('init', user => {
-        if (!user) {
-          window.netlifyIdentity.on('login', () => {
-            document.location.href = '/admin/';
-          });
-        }
-      });
-    }
-  </script>
-
-  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-  <script>
-    const el = document.getElementById('auth-menu');
-    let globalClosersBound = false;
-
-    function closeAllMenus(){
-      document.querySelectorAll('.dropdown[data-open="1"]').forEach(d=>{
-        d.setAttribute('hidden','');
-        d.removeAttribute('data-open');
-      });
-      document.querySelectorAll('.menu-btn[aria-expanded="true"]').forEach(b=>b.setAttribute('aria-expanded','false'));
-    }
-
-    function bindGlobalClosersOnce(){
-      if (globalClosersBound) return;
-      globalClosersBound = true;
-      document.addEventListener('click', closeAllMenus);
-      document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') closeAllMenus(); });
-      window.addEventListener('scroll', closeAllMenus, { passive:true });
-    }
-
-    function rolesOf(user){ return (user?.app_metadata?.roles) || []; }
-
-    function renderMenu(user){
-      if(!el) return;
-      if(!user){
-        el.innerHTML = `
-          <div class="user-menu">
-            <button class="btn" id="btn-login">Zaloguj / Zarejestruj</button>
-          </div>`;
-        document.getElementById('btn-login')?.addEventListener('click', e=>{
-          e.preventDefault(); window.netlifyIdentity?.open();
-        });
-        return;
-      }
-
-      const email = user.email || 'Użytkownik';
-      const staff = rolesOf(user).some(r=>['staff','editor','admin'].includes(r));
-      el.innerHTML = `
-        <div class="user-menu">
-          <button class="menu-btn" id="menuBtn" aria-haspopup="true" aria-expanded="false">
-            <span class="avatar">${email[0].toUpperCase()}</span>
-            <span class="email">${email}</span>
-          </button>
-          <div class="dropdown" id="menuDrop" hidden>
-            ${staff ? '<a href="/admin/">🛠 CMS</a>' : ''}
-            <button id="btn-logout">🚪 Wyloguj</button>
-          </div>
-        </div>`;
-
-      const btn  = document.getElementById('menuBtn');
-      const drop = document.getElementById('menuDrop');
-
-      // nie pozwól, by klik w dropdown zamykał go natychmiast
-      drop.addEventListener('click', e=> e.stopPropagation());
-
-      btn.addEventListener('click', (e)=>{
-        e.preventDefault();
-        e.stopPropagation();
-        const isOpen = drop.getAttribute('data-open') === '1';
-        closeAllMenus();
-        if (!isOpen){
-          drop.removeAttribute('hidden');
-          drop.setAttribute('data-open','1');
-          btn.setAttribute('aria-expanded','true');
-        } else {
-          drop.setAttribute('hidden','');
-          drop.removeAttribute('data-open');
-          btn.setAttribute('aria-expanded','false');
-        }
-      });
-
-      document.getElementById('btn-logout')?.addEventListener('click', ()=> window.netlifyIdentity?.logout());
-      bindGlobalClosersOnce(); // tylko raz na całą stronę
-    }
-
-    // Identity bez reloadów
-    if (window.netlifyIdentity) {
-      window.netlifyIdentity.on('init',  user => renderMenu(user));
-      window.netlifyIdentity.on('login', user => renderMenu(user));
-      window.netlifyIdentity.on('logout',()   => renderMenu(null));
-      setTimeout(()=> renderMenu(window.netlifyIdentity.currentUser()), 150);
-    } else {
-      renderMenu(null);
-    }
-  </script>
-
-
-
-  
 </body>
 </html>
