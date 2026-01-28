@@ -33,7 +33,7 @@ collections:
             widget: "object"
             fields:
               - {label: "Aktywni klubowicze", name: "members", widget: "number", value_type: "int"}
-              - {label: "Medale (2024–2025)", name: "medals", widget: "number", value_type: "int"}
+#              - {label: "Medale", name: "medals", widget: "number", value_type: "int"}
               - {label: "Rok założenia", name: "founded", widget: "number", value_type: "int"}
           - label: "Dzisiejsze treningi (kafelki)"
             name: "heroTrainings"
