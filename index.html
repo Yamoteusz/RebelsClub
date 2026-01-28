@@ -90,24 +90,6 @@
             </div>
           </div>
         </div>
-        <form name="kontakt" method="POST" action="/thanks.html"
-              netlify netlify-honeypot="bot-field" aria-label="Formularz kontaktowy">
-          <input type="hidden" name="form-name" value="kontakt" />
-          <p style="display:none"><label>Nie wypełniaj: <input name="bot-field" /></label></p>
-          <label><span class="meta">Imię i nazwisko</span><input required type="text" name="name" placeholder="Jan Kowalski" /></label>
-          <label><span class="meta">E-mail</span><input required type="email" name="email" placeholder="jan@example.com" /></label>
-          <label><span class="meta">Temat</span>
-            <select name="topic" required>
-              <option value="Trening">Trening</option>
-              <option value="Współpraca">Współpraca</option>
-              <option value="Inna sprawa">Inna sprawa</option>
-            </select>
-          </label>
-          <label><span class="meta">Wiadomość</span><textarea rows="5" name="message" placeholder="Napisz, w czym możemy pomóc…" required></textarea></label>
-          <label style="display:flex;gap:10px;align-items:flex-start;"><input type="checkbox" name="rodo" required /><span class="meta">Wyrażam zgodę na przetwarzanie moich danych osobowych w celu kontaktu.</span></label>
-          <button class="btn" type="submit">Wyślij</button>
-          <p class="meta">Przesyłając formularz, akceptujesz politykę prywatności i RODO klubu.</p>
-        </form>
       </div>
     </div>
   </section>
