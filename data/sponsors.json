@@ -12,7 +12,13 @@
     },
     {
       "name": "LOK",
-      "logo": "/images/uploads/logo_lok_3-removebg-preview.webp"
+      "logo": "/images/uploads/logo_lok_3-removebg-preview.webp",
+      "url": "https://lok.org.pl/"
+    },
+    {
+      "name": "LOK WROCŁAW",
+      "logo": "/images/uploads/door-1.jpg",
+      "url": "https://portal.wroclok.pl/"
     }
   ]
 }
